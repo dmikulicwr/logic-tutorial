@@ -132,23 +132,23 @@ Hmm that doesn't work. This is because we never actually said *who Mary liked*, 
 ```clj
 tut1=> (fact likes 'Mary 'Bob)
 nil
-tut1=> (run* [q] (exist [x y] (likes x y) (== q [x y])))
+tut1=> (run* [q] (fresh [x y] (likes x y) (== q [x y])))
 ([Mary Bob] [Bob Mary] [John Lucy])
 ```
 
-Wow that's a lot of new information. The exist expression isn't something we've seen before. Why do we need it? By convention <code>run</code> returns single values for <code>q</code> which answer the question. In this case we want to know who likes who. This means we need to create logic variables to store these values in. We then assign both these values to <code>q</code> by putting them in a Clojure vector (which is like an array in other programming languages).
+Wow that's a lot of new information. The <code>fresh</code> expression isn't something we've seen before. Why do we need it? By convention <code>run</code> returns single values for <code>q</code> which answer the question. In this case we want to know who likes who. This means we need to create logic variables to store these values in. We then assign both these values to <code>q</code> by putting them in a Clojure vector (which is like an array in other programming languages).
 
 Try the following:
 
 ```clj
-tut1=> (run* [q] (exist [x y] (likes x y) (likes y x) (== q [x y])))
+tut1=> (run* [q] (fresh [x y] (likes x y) (likes y x) (== q [x y])))
 ([Mary Bob] [Bob Mary])
 ```
 
 Here we only want the list of people who like each other. Note that the order of how we pose our question doesn't really matter:
 
 ```clj
-tut1=> (run* [q] (exist [x y] (likes x y) (== q [x y]) (likes y x)))
+tut1=> (run* [q] (fresh [x y] (likes x y) (== q [x y]) (likes y x)))
 ([Mary Bob] [Bob Mary])
 ```
 
@@ -212,7 +212,7 @@ We can define relations as functions! Play around with defining some new facts a
 Primitives
 ----
 
-Let's step back for a moment. <code>core.logic</code> is built upon a small set of primitives - they are <code>run</code>, <code>exist</code>, <code>==</code>, and <code>conde</code>. We're already pretty familiar with <code>run</code>, <code>exist</code>, and <code>==</code>. <code>run</code> is simple, it let's us <code>run</code> our logic programs. <code>exist</code> is also pretty simple, it lets us declare new logic variables. <code>==</code> is a bit mysterious and we've never even seen <code>conde</code> before.
+Let's step back for a moment. <code>core.logic</code> is built upon a small set of primitives - they are <code>run</code>, <code>fresh</code>, <code>==</code>, and <code>conde</code>. We're already pretty familiar with <code>run</code>, <code>fresh</code>, and <code>==</code>. <code>run</code> is simple, it let's us <code>run</code> our logic programs. <code>fresh</code> is also pretty simple, it lets us declare new logic variables. <code>==</code> is a bit mysterious and we've never even seen <code>conde</code> before.
 
 Unification
 ----
@@ -247,7 +247,7 @@ Once we've unified a logic variable to a concrete value we can unify it again wi
 Here's an example showing that we can unify complex terms:
 
 ```clj
-tut1=> (run* [q] (exist [x y] (== [x 2] [1 y]) (== q [x y])))
+tut1=> (run* [q] (fresh [x y] (== [x 2] [1 y]) (== q [x y])))
 ([1 2])
 ```
 
@@ -256,9 +256,9 @@ This shows that in order for the two terms <code>[x 2]</code> and <code>[1 y]</c
 Note is perfectly fine to unify two variable to each other:
 
 ```clj
-tut1=> (run* [q] (exist [x y] (== x y) (== q [x y])))
+tut1=> (run* [q] (fresh [x y] (== x y) (== q [x y])))
 ([_.0 _.0])
-tut1=> (run* [q] (exist [x y] (== x y) (== y 1) (== q [x y])))
+tut1=> (run* [q] (fresh [x y] (== x y) (== y 1) (== q [x y])))
 ([1 1])
 ```
 
@@ -308,7 +308,7 @@ Open <code>src/logic-tutorial/tut2.clj</code>. You'll find the definition for <c
 (defn appendo [l1 l2 o]
   (conde
     ((== l1 ()) (== l2 o))
-    ((exist [a d r]
+    ((fresh [a d r]
        (conso a d l1)
        (conso a r l2)
        (appendo d l2 r)))))
