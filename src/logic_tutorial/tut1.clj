@@ -28,3 +28,8 @@
   (fresh [z]
     (daughter x z)
     (child z y)))
+
+(defn grandson [x y]
+  (fresh [z]
+    (son x z)
+    (child z y)))

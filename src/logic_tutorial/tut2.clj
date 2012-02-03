@@ -1,8 +1,8 @@
 (ns logic-tutorial.tut2
-  (:refer-clojure :exclude [reify inc == appendo])
+  (:refer-clojure :exclude [reify inc ==])
   (:use [clojure.core.logic]))
 
-(defn xappendo [l1 l2 o]
+(defn myappendo [l1 l2 o]
   (conde
     ((== l1 ()) (== l2 o))
     ((fresh [a d r]
