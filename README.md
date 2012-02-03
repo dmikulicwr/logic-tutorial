@@ -302,16 +302,16 @@ nil
 
 Relational functions are written quite differently than their functional counterparts. Instead of return value, we usually make the final parameter be output variable that we'll unify the answer to. This makes it easier to compose relations together. This also means that relational programs in general look quite different from functional programs.
 
-Open <code>src/logic-tutorial/tut2.clj</code>. You'll find the definition for <code>appendo</code>.
+Open <code>src/logic-tutorial/tut2.clj</code>. You'll find the definition for <code>myappendo</code>.
 
 ```clj
-(defn appendo [l1 l2 o]
+(defn myappendo [l1 l2 o]
   (conde
     ((== l1 ()) (== l2 o))
     ((fresh [a d r]
        (conso a d l1)
        (conso a r l2)
-       (appendo d l2 r)))))
+       (myappendo d l2 r)))))
 ```
 
 We can pass in logic variables in any one of it's three arguments.
@@ -319,14 +319,14 @@ We can pass in logic variables in any one of it's three arguments.
 Now try the following:
 
 ```clj
-tut2=> (run* [q] (appendo [1 2] [3 4] q))
+tut2=> (run* [q] (myappendo [1 2] [3 4] q))
 ([1 2 3 4])
 ```
 
 Seems reasonable. Now try this:
 
 ```clj
-tut2=> (run* [q] (appendo [1 2] q [1 2 3 4]))
+tut2=> (run* [q] (myappendo [1 2] q [1 2 3 4]))
 ([3 4])
 ```
 
