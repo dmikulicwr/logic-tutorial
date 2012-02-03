@@ -20,11 +20,11 @@
    (female x)))
 
 (defn grandparent [x y]
-  (exist [z]
+  (fresh [z]
     (parent x z)
     (parent z y)))
 
 (defn granddaughter [x y]
-  (exist [z]
+  (fresh [z]
     (daughter x z)
     (child z y)))
