@@ -1,6 +1,6 @@
 (ns logic-tutorial.tut2
-  (:refer-clojure :exlude [reify == inc])
-  (:use [clojure.core.logic minikanren prelude]))
+  (:refer-clojure :exclude [reify inc ==])
+  (:use [clojure.core.logic]))
 
 (defn appendo [l1 l2 o]
   (conde

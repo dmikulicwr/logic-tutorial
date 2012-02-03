@@ -23,7 +23,7 @@ First Steps
 Ok, we're ready to begin. Type <code>lein repl</code> or <code>cake repl</code>, this will drop you into the Clojure prompt. First lets double check that everything went ok. Enter the following at the Clojure REPL:
 
 ```clj
-user=> (require 'clojure.core.logic.minikanren)
+user=> (require 'clojure.core.logic)
 ```
 
 The REPL should print nil and it should return control to you. If it doesn't file an issue for this tutorial and I'll look into it. If all goes well run the following:

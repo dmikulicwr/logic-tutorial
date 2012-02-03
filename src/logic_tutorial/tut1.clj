@@ -1,6 +1,6 @@
 (ns logic-tutorial.tut1
-  (:refer-clojure :exlude [reify == inc])
-  (:use [clojure.core.logic minikanren prelude]))
+  (:refer-clojure :exclude [reify inc ==])
+  (:use [clojure.core.logic]))
 
 (defrel parent x y)
 (defrel male x)
