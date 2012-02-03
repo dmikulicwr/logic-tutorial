@@ -302,13 +302,17 @@ nil
 
 Relational functions are written quite differently than their functional counterparts. Instead of return value, we usually make the final parameter be output variable that we'll unify the answer to. This makes it easier to compose relations together. This also means that relational programs in general look quite different from functional programs.
 
-Open <code>src/logic-tutorial/tut2.clj</code>. You'll find the definition for <code>myappendo</code>. 
+Open <code>src/logic-tutorial/tut2.clj</code>. You'll find the definition for <code>myappendo</code> which is identical to the <code>appendo</code> defined in core.logic. 
 
 ```clj
 (defne myappendo [x y z]
   ([() _ y])
   ([[?a . ?d] _ [?a . ?r]] (myappendo ?d y ?r)))
 ```
+
+<code>defne</code> above is syntax sugar around matche. It creates a function (named myappendo) that accepts three arguments. It matches x, y and z with the three arguments in the list at the beginning of each clause. In this case the first clause is matched cons style. <code>?a</code> is declared as the first item and <code>?d</code> is declared as the rest. The second item is ignored, the third is split in the same way. Note that the <code>?a</code> is shared here on the first and third parameter of the match. This makes the first item in x, the first item in z. Assuming the x and z can be matched as above, appendo is recursively called on the rest of each list (including y, untouched). Something similar to the shared <code>?a</code> is going on when the recursion bottoms out (when x is empty). In this clause y is declared as z. This makes y the tail of a cons like expression (specifically the <code>?r</code>) from the previous recursive call.
+
+//Source: http://objectcommando.com/blog/2011/10/13/appendo-the-great/
 
 We can pass in logic variables in any one of it's three arguments.
 
@@ -328,12 +332,31 @@ tut2=> (run* [q] (myappendo [1 2] q [1 2 3 4]))
 
 Note that <code>appendo</code> can infer it's inputs!
 
-There’s actually a short hand for writing appendo, we can write it like this. This is pattern matching - it can decrease the amount of boiler plate we have to write for many programs.
+This definition uses pattern matching - it can decrease the amount of boiler plate we have to write for many programs.
+
+<code>matche</code>
+TODO
+matche sugar: Wildcards
+matche sugar: List destructuring
+matche sugar: Combining wildcards and destructuring
+matche sugar: Implicit variables
+
+//Source: https://github.com/frenchy64/Logic-Starter/wiki
+
 
 Zebras
 ----
 
 There's a classic old puzzle sometimes to referred to as the Zebra puzzle, sometimes as Einstein's puzzle. Writing an algorithm for solving the constraint is a bit tedious - relational programming allows us to just describe the constraints and it can produce the correct answer for us.
+
+```clj
+tut1=> (in-ns 'user)
+nil
+user=> (load "logic_tutorial/tut3")
+nil
+user=> (in-ns 'logic-tutorial.tut3)
+nil
+```
 
 The puzzle is described in the following manner.
 
