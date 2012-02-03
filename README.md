@@ -305,13 +305,9 @@ Relational functions are written quite differently than their functional counter
 Open <code>src/logic-tutorial/tut2.clj</code>. You'll find the definition for <code>myappendo</code>.
 
 ```clj
-(defn myappendo [l1 l2 o]
-  (conde
-    ((== l1 ()) (== l2 o))
-    ((fresh [a d r]
-       (conso a d l1)
-       (conso a r l2)
-       (myappendo d l2 r)))))
+(defne myappendo [x y z]
+  ([() _ y])
+  ([[?a . ?d] _ [?a . ?r]] (myappendo ?d y ?r)))
 ```
 
 We can pass in logic variables in any one of it's three arguments.
